@@ -62,6 +62,7 @@ void handleOnBodyPost(AsyncWebServerRequest *req, uint8_t *data, size_t len, siz
   }
 }
 
+// @POST("/changeControlState")
 void handleChangeState(AsyncWebServerRequest *req)
 {
   String state = req->arg("state");
@@ -84,11 +85,12 @@ void handleChangeState(AsyncWebServerRequest *req)
   }
   else
   {
+    Serial.println("Bad request.");
     req->send(400, "text/plain", "Bad request");
   }
 
   // MasterControl::setControlMode(newControlState);
-  req->send(200, "text/plain", "Control state changed");
+  // req->send(200, "text/plain", "Control state changed");
 }
 
 // 404 Callback
