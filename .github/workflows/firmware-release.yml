@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-release:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,17 +25,19 @@ jobs:
         run: platformio run
         working-directory: .
 
-      - name: Create a Git tag
+      - name: Create a Git Tag
         run: |
           TAG="v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)"
           git tag $TAG
           git push origin $TAG
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Create or Update Release
         uses: softprops/action-gh-release@v2
         with:
           files: .pio/build/esp32doit-devkit-v1/firmware.bin
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
