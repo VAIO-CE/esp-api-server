@@ -21,6 +21,11 @@ jobs:
       - name: Install PlatformIO
         run: pip install platformio
 
+      - name: Recreate secrets files
+        run: |
+          echo "${{ secrets.SECRET_H }}" > lib/Secret/src/Secret.h
+          echo "${{ secrets.SECRET_CPP }}" > lib/Secret/src/Secret.cpp
+
       - name: Build Firmware
         run: platformio run
         working-directory: .
