@@ -30,7 +30,6 @@ jobs:
         run: |
           echo "v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)" > version.txt
           echo "::set-output name=tag::$(cat version.txt)"
-
       - name: 📢 Publish firmware files to GitHub
         uses: s0/git-publish-subdir-action@v2.4.0
         env:
@@ -71,7 +70,7 @@ jobs:
       - name: ⚙️ Check created tag
         id: check_tagged
         run: |
-          if [ "${{ steps.check_tag.outputs.exists }}" == "false" ] && [ "${{ steps.tag.outputs.new_tag }}" == "${{ steps.tag.outputs.tag }}" ]; then
+          if [ "${{ steps.check_tag.outputs.exists }}" == "false" ] && [ "${{ steps.tag.outputs.new_tag }}" == "${{ needs.build_and_push.outputs.tag }}" ]; then
             echo "::set-output name=tagged::true"
           else
             echo "::set-output name=tagged::false"
