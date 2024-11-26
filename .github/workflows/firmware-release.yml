@@ -9,7 +9,7 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     outputs:
-      tag: v${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
     steps:
       - name: ⚙️ Setup Python
         uses: actions/setup-python@v5
@@ -25,11 +25,11 @@ jobs:
           platformio run
         working-directory: .
 
-      - name: ⚙️ Parse version string
+      - name: ⚙️ Generate version string
         id: version
-        uses: booxmedialtd/ws-action-parse-semver@v1
-        with:
-          input_string: $(date +'%Y%m%d')-$(git rev-parse --short HEAD)
+        run: |
+          echo "v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)" > version.txt
+          echo "::set-output name=tag::$(cat version.txt)"
 
       - name: 📢 Publish firmware files to GitHub
         uses: s0/git-publish-subdir-action@v2.4.0
