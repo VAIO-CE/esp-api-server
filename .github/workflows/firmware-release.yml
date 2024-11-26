@@ -25,6 +25,12 @@ jobs:
         run: platformio run
         working-directory: .
 
+      - name: Create a Git tag
+        run: |
+          TAG="v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)"
+          git tag $TAG
+          git push origin $TAG
+
       - name: Create or Update Release
         uses: softprops/action-gh-release@v2
         with:
