@@ -16,16 +16,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install PlatformIO
         run: pip install platformio
-
-      - name: Recreate secrets files
-        run: |
-          mkdir -p lib/Secret/src
-          echo "${{ secrets.SECRET_H }}" > lib/Secret/src/Secret.h
-          echo "${{ secrets.SECRET_CPP }}" > lib/Secret/src/Secret.cpp
 
       - name: Build Firmware
         run: platformio run
