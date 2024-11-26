@@ -23,6 +23,7 @@ jobs:
 
       - name: Recreate secrets files
         run: |
+          mkdir -p lib/Secret/src
           echo "${{ secrets.SECRET_H }}" > lib/Secret/src/Secret.h
           echo "${{ secrets.SECRET_CPP }}" > lib/Secret/src/Secret.cpp
 
