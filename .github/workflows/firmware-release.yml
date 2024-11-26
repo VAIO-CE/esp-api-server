@@ -71,7 +71,11 @@ jobs:
       - name: ⚙️ Check created tag
         id: check_tagged
         run: |
-          echo "::set-output name=tagged::${{ (steps.check_tag.outputs.exists == 'false') && (steps.tag.outputs.new_tag == steps.tag.outputs.tag) }}"
+          if [ "${{ steps.check_tag.outputs.exists }}" == "false" ] && [ "${{ steps.tag.outputs.new_tag }}" == "${{ steps.tag.outputs.tag }}" ]; then
+            echo "::set-output name=tagged::true"
+          else
+            echo "::set-output name=tagged::false"
+          fi
 
   create_release:
     needs: tag_version
