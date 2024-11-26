@@ -1,4 +1,4 @@
-name: Auto-Build and Release Firmware
+name: Build Firmware
 
 on:
   push:
@@ -30,14 +30,3 @@ jobs:
           TAG="v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)"
           git tag $TAG
           git push origin $TAG
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Create or Update Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: .pio/build/esp32doit-devkit-v1/firmware.bin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
