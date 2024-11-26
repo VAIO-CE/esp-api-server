@@ -55,6 +55,7 @@ void handleOnBodyPost(AsyncWebServerRequest *req, uint8_t *data, size_t len, siz
     // To-do
     // Implement ESP32 firmware upgrade
     // Over the air
+    Serial.println("Tes CI/CD Release Firmware Commit");
   }
   else
   {
